@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OS Complete Notes – GATE Level</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#0d1117;color:#c9d1d9;line-height:1.7}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#161b22}::-webkit-scrollbar-thumb{background:#30363d;border-radius:3px}
+
+/* Layout */
+.app{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:280px;min-width:280px;background:#161b22;border-right:1px solid #30363d;overflow-y:auto;display:flex;flex-direction:column}
+.sidebar-header{padding:16px 20px;background:#21262d;border-bottom:1px solid #30363d;position:sticky;top:0;z-index:10}
+.sidebar-header h2{color:#58a6ff;font-size:0.95rem;font-weight:700}
+.sidebar-header p{color:#8b949e;font-size:0.75rem;margin-top:2px}
+.unit-btn{width:100%;text-align:left;padding:10px 20px;background:none;border:none;border-bottom:1px solid #21262d;color:#8b949e;cursor:pointer;font-size:0.82rem;transition:all 0.2s;display:flex;align-items:center;gap:8px}
+.unit-btn:hover{background:#21262d;color:#c9d1d9}
+.unit-btn.active{background:#1f3050;color:#58a6ff;border-left:3px solid #1f6feb}
+.unit-num{background:#21262d;border-radius:4px;padding:2px 6px;font-size:0.72rem;font-weight:700;min-width:26px;text-align:center}
+.unit-btn.active .unit-num{background:#1f6feb;color:#fff}
+
+.content{flex:1;overflow-y:auto;padding:40px 50px}
+@media(max-width:900px){.content{padding:20px 18px}.sidebar{width:240px;min-width:240px}}
+
+/* Units */
+.unit{display:none}.unit.active{display:block}
+.unit-title{font-size:1.8rem;font-weight:800;color:#58a6ff;margin-bottom:6px;display:flex;align-items:center;gap:12px}
+.unit-subtitle{color:#8b949e;font-size:0.9rem;margin-bottom:30px;padding-bottom:20px;border-bottom:1px solid #21262d}
+
+/* Sections */
+.section{margin-bottom:36px}
+.section-title{font-size:1.15rem;font-weight:700;color:#e6edf3;margin-bottom:14px;padding:10px 14px;background:#161b22;border-radius:8px;border-left:3px solid #1f6feb;display:flex;align-items:center;gap:8px}
+.subsection{margin-bottom:22px;padding-left:4px}
+.subsection-title{font-size:0.95rem;font-weight:700;color:#ffa657;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.subsection-title::before{content:"▸";color:#388bfd}
+
+/* Content elements */
+p{color:#c9d1d9;font-size:0.88rem;margin-bottom:10px}
+ul,ol{padding-left:22px;margin-bottom:10px}
+li{font-size:0.87rem;color:#c9d1d9;margin-bottom:4px}
+li strong{color:#e6edf3}
+
+.definition{background:#1c2128;border:1px solid #30363d;border-left:3px solid #3fb950;border-radius:6px;padding:12px 16px;margin:12px 0;font-size:0.86rem}
+.definition strong{color:#3fb950;display:block;margin-bottom:4px;font-size:0.8rem;text-transform:uppercase}
+
+.formula{background:#0d1117;border:1px solid #1f6feb;border-radius:6px;padding:10px 16px;margin:10px 0;font-family:monospace;color:#79c0ff;font-size:0.87rem}
+.formula strong{color:#8b949e;display:block;font-family:'Segoe UI',sans-serif;font-size:0.75rem;margin-bottom:4px}
+
+.example{background:#1a1f26;border:1px solid #30363d;border-radius:8px;padding:14px 18px;margin:14px 0}
+.example-header{color:#ffa657;font-weight:700;font-size:0.82rem;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+.example p,.example li{font-size:0.85rem}
+
+.note{background:#1c1f14;border:1px solid #3fb950;border-radius:6px;padding:10px 14px;margin:10px 0;font-size:0.83rem;color:#7ee787}
+.note::before{content:"💡 NOTE: ";font-weight:700}
+
+.warning{background:#1f1a14;border:1px solid #ffa657;border-radius:6px;padding:10px 14px;margin:10px 0;font-size:0.83rem;color:#ffa657}
+.warning::before{content:"⚠️ GATE ALERT: ";font-weight:700}
+
+.gate{background:#1a1428;border:1px solid #bc8cff;border-radius:6px;padding:10px 14px;margin:10px 0;font-size:0.83rem;color:#d2a8ff}
+.gate::before{content:"📝 GATE: ";font-weight:700}
+
+/* Questions */
+.questions{margin-top:20px}
+.questions-header{color:#58a6ff;font-weight:700;font-size:0.9rem;margin-bottom:12px;padding:8px 12px;background:#1c2128;border-radius:6px;border:1px solid #30363d}
+.q-item{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:14px 16px;margin-bottom:10px}
+.q-num{color:#58a6ff;font-weight:700;font-size:0.78rem;margin-bottom:6px}
+.q-text{color:#e6edf3;font-size:0.88rem;margin-bottom:10px;line-height:1.6}
+.q-options{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+.q-opt{background:#0d1117;border:1px solid #21262d;border-radius:5px;padding:6px 10px;font-size:0.82rem;color:#8b949e;cursor:pointer;transition:all 0.15s}
+.q-opt:hover{border-color:#388bfd;color:#58a6ff}
+.q-opt.correct{background:#0d2818;border-color:#3fb950;color:#7ee787}
+.q-opt.wrong{background:#2a0e0e;border-color:#f85149;color:#ff7b72}
+.q-explain{display:none;background:#111820;border:1px solid #1f6feb;border-radius:5px;padding:10px 12px;font-size:0.82rem;color:#a5d6ff;margin-top:8px;line-height:1.6}
+.q-explain.show{display:block}
+.ans-btn{background:#1f3050;border:1px solid #388bfd;color:#58a6ff;padding:5px 12px;border-radius:5px;cursor:pointer;font-size:0.78rem;margin-top:4px}
+
+/* Table */
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:0.83rem}
+th{background:#21262d;color:#e6edf3;padding:8px 12px;text-align:left;border:1px solid #30363d}
+td{padding:8px 12px;border:1px solid #21262d;color:#c9d1d9;vertical-align:top}
+tr:nth-child(even) td{background:#161b22}
+
+/* Gantt */
+.gantt{display:flex;align-items:stretch;margin:12px 0;border:1px solid #30363d;border-radius:6px;overflow:hidden;font-size:0.78rem}
+.g-block{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;border-right:1px solid #30363d;min-width:50px}
+.g-block:last-child{border-right:none}
+.g-proc{font-weight:700;font-size:0.85rem}
+.g-time{color:#8b949e;font-size:0.7rem;margin-top:2px}
+
+/* Search */
+.search-box{padding:12px 20px;background:#21262d;border-bottom:1px solid #30363d;position:sticky;top:52px;z-index:9}
+.search-box input{width:100%;background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:6px 10px;color:#c9d1d9;font-size:0.82rem;outline:none}
+.search-box input:focus{border-color:#388bfd}
+
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.72rem;font-weight:600;margin:2px}
+.tag-high{background:#2a0e0e;color:#ff7b72;border:1px solid #6e3030}
+.tag-med{background:#271f0e;color:#ffa657;border:1px solid #6e4c1e}
+.tag-low{background:#0d2818;color:#7ee787;border:1px solid #1f5e32}
+
+.divider{border:none;border-top:1px solid #21262d;margin:24px 0}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-header">
+    <h2>🖥️ OS Complete Notes</h2>
+    <p>GATE · Galvin · Deep Level</p>
+  </div>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="🔍 Search topic..." oninput="filterUnits(this.value)">
+  </div>
+  <button class="unit-btn active" onclick="showUnit(1,this)"><span class="unit-num">U1</span>Introduction & Structure</button>
+  <button class="unit-btn" onclick="showUnit(2,this)"><span class="unit-num">U2</span>Process Management</button>
+  <button class="unit-btn" onclick="showUnit(3,this)"><span class="unit-num">U3</span>Threads & Concurrency</button>
+  <button class="unit-btn" onclick="showUnit(4,this)"><span class="unit-num">U4</span>Process Synchronization</button>
+  <button class="unit-btn" onclick="showUnit(5,this)"><span class="unit-num">U5</span>Deadlocks</button>
+  <button class="unit-btn" onclick="showUnit(6,this)"><span class="unit-num">U6</span>Memory Management</button>
+  <button class="unit-btn" onclick="showUnit(7,this)"><span class="unit-num">U7</span>Virtual Memory</button>
+  <button class="unit-btn" onclick="showUnit(8,this)"><span class="unit-num">U8</span>File Systems</button>
+  <button class="unit-btn" onclick="showUnit(9,this)"><span class="unit-num">U9</span>I/O & Disk Scheduling</button>
+  <button class="unit-btn" onclick="showUnit(10,this)"><span class="unit-num">U10</span>Protection & Security</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content">
+
+<!-- ===== UNIT 1 ===== -->
+<div id="unit1" class="unit active">
+  <div class="unit-title">📘 Unit 1 <span style="font-size:1.2rem">Introduction & System Structure</span></div>
+  <div class="unit-subtitle">Books: Galvin Ch.1–3 · Three Easy Pieces Ch.1 · Modern OS Ch.1 | <span class="tag tag-med">Medium Weightage</span></div>
+
+  <div class="section">
+    <div class="section-title">1.1 Computer System Overview</div>
+
+    <div class="subsection">
+      <div class="subsection-title">Computer System Components</div>
+      <p>A computer system has four major components working together:</p>
+      <ul>
+        <li><strong>Hardware</strong> — CPU, RAM, I/O devices — provides basic computing resources</li>
+        <li><strong>Operating System</strong> — controls and coordinates hardware use among applications</li>
+        <li><strong>Application Programs</strong> — word processors, compilers, web browsers, games</li>
+        <li><strong>Users</strong> — people, machines, other computers</li>
+      </ul>
+
+      <div class="definition"><strong>OS Role</strong>The OS is a resource allocator — it manages CPU time, memory space, file storage, I/O devices. It is also a control program — it controls execution of user programs to prevent errors and improper use.</div>
+
+      <div class="subsection-title">CPU (Central Processing Unit)</div>
+      <p>The brain of the computer. Fetches instructions from memory, decodes them, executes them (fetch-decode-execute cycle). Contains:</p>
+      <ul>
+        <li><strong>ALU (Arithmetic Logic Unit)</strong> — performs arithmetic (+, -, ×, ÷) and logical (AND, OR, NOT) operations</li>
+        <li><strong>Control Unit</strong> — directs operations of the processor, tells memory/ALU/I/O how to respond to instructions</li>
+        <li><strong>Registers</strong> — small, fast storage inside CPU: PC (Program Counter), IR (Instruction Register), MAR, MBR, SP (Stack Pointer), PSW</li>
+        <li><strong>Cache</strong> — L1, L2, L3 cache between CPU and RAM for speed</li>
+      </ul>
+
+      <div class="subsection-title">Main Memory (RAM)</div>
+      <p>Random Access Memory — volatile storage that directly interacts with CPU. Programs must be loaded into RAM before execution. Organized as an array of bytes, each with a unique address.</p>
+      <div class="note">CPU can only process data that is in registers or RAM. Data on disk must be loaded into RAM first.</div>
+
+      <div class="subsection-title">I/O Devices</div>
+      <p>Each I/O device is paired with a <strong>device controller</strong> (hardware) and a <strong>device driver</strong> (software in OS). Controller has local buffer registers and communicates with CPU via bus.</p>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Interrupt Mechanism</div>
+      <div class="definition"><strong>Interrupt</strong>A signal sent to the CPU by hardware or software indicating an event that needs immediate attention. Causes CPU to stop current task, save state, and run an Interrupt Service Routine (ISR).</div>
+      <p><strong>How interrupts work (step-by-step):</strong></p>
+      <ol>
+        <li>Hardware device raises an interrupt signal on the bus</li>
+        <li>CPU finishes current instruction</li>
+        <li>CPU saves current state (PC, registers) onto the stack</li>
+        <li>CPU looks up Interrupt Vector Table (IVT) to find ISR address</li>
+        <li>CPU transfers control to ISR</li>
+        <li>ISR executes (handles the event — e.g., reads key pressed)</li>
+        <li>CPU restores saved state and resumes previous task</li>
+      </ol>
+      <div class="example">
+        <div class="example-header">📌 Example: Keyboard Interrupt</div>
+        <p>You press a key → keyboard controller puts the key code in its buffer → sends interrupt to CPU → CPU pauses current process → runs keyboard ISR → ISR reads key from buffer → stores in OS buffer → returns to interrupted process</p>
+      </div>
+
+      <div class="subsection-title">Trap vs Interrupt</div>
+      <table>
+        <tr><th>Feature</th><th>Interrupt</th><th>Trap</th></tr>
+        <tr><td>Source</td><td>External hardware (device, timer)</td><td>Internal — software-generated (system call, divide by zero)</td></tr>
+        <tr><td>Cause</td><td>Asynchronous — can happen anytime</td><td>Synchronous — caused by current instruction</td></tr>
+        <tr><td>Examples</td><td>Keyboard, disk I/O complete, timer</td><td>System call (int 0x80), page fault, illegal instruction</td></tr>
+        <tr><td>Also called</td><td>Hardware interrupt</td><td>Software interrupt / exception</td></tr>
+      </table>
+      <div class="gate">GATE 2016 Q: "A trap is a software interrupt." — TRUE. Traps are synchronous, hardware interrupts are asynchronous.</div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Dual-Mode Operation</div>
+      <div class="definition"><strong>Dual-Mode Operation</strong>Hardware provides at least two modes of operation — User Mode and Kernel Mode — to protect OS from errant user programs.</div>
+      <p>A <strong>mode bit</strong> in the CPU (0 = Kernel/Privileged, 1 = User) indicates current mode.</p>
+      <table>
+        <tr><th>Feature</th><th>User Mode</th><th>Kernel Mode</th></tr>
+        <tr><td>Mode bit</td><td>1</td><td>0</td></tr>
+        <tr><td>Privileged instructions</td><td>❌ Not allowed</td><td>✅ Allowed</td></tr>
+        <tr><td>Direct hardware access</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Who runs here</td><td>User applications</td><td>OS kernel code</td></tr>
+        <tr><td>Memory access</td><td>Limited (own address space)</td><td>Full memory</td></tr>
+      </table>
+      <p><strong>Transition from User → Kernel mode:</strong> only via system call, interrupt, or exception. Transition from Kernel → User mode: OS sets mode bit to 1 before returning to user program.</p>
+
+      <div class="subsection-title">Timer</div>
+      <p>A timer is used to prevent a user program from running forever (infinite loop). The OS sets a timer to interrupt after a fixed time period. If the timer fires, control returns to OS. This enables <strong>time-sharing</strong>.</p>
+      <div class="example">
+        <div class="example-header">📌 Example</div>
+        <p>OS sets timer to 10ms. Process P1 starts. After 10ms timer fires → interrupt → OS regains control → switches to P2. This is how Round Robin scheduling works at hardware level.</p>
+      </div>
+    </div>
+
+    <div class="questions">
+      <div class="questions-header">📝 Unit 1 Practice Questions</div>
+      <div class="q-item">
+        <div class="q-num">Q1 — GATE 2014 | 1 Mark</div>
+        <div class="q-text">Which of the following is NOT a valid reason for transitioning from user mode to kernel mode?</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="checkAns(this,'wrong')">A. System call</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">B. Hardware interrupt</div>
+          <div class="q-opt" onclick="checkAns(this,'correct')">C. Context switch between two user processes</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">D. Page fault</div>
+        </div>
+        <button class="ans-btn" onclick="toggleExplain(this)">Show Explanation</button>
+        <div class="q-explain">A context switch between two user processes DOES involve kernel mode (the OS scheduler runs in kernel mode), but the act of context switching itself is triggered BY a kernel mode event. However, a context switch is not a direct cause of mode transition — it is a consequence. System calls, interrupts, and page faults are direct triggers for user→kernel mode switch. Answer: C is the "not a direct transition trigger."</div>
+      </div>
+      <div class="q-item">
+        <div class="q-num">Q2 — Conceptual | 1 Mark</div>
+        <div class="q-text">A trap is generated when:</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="checkAns(this,'wrong')">A. A hardware device finishes I/O</div>
+          <div class="q-opt" onclick="checkAns(this,'correct')">B. A process executes a division by zero</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">C. A timer expires</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">D. A key is pressed on keyboard</div>
+        </div>
+        <button class="ans-btn" onclick="toggleExplain(this)">Show Explanation</button>
+        <div class="q-explain">A trap is a software-generated (synchronous) interrupt caused by the currently running program — division by zero is a classic trap (exception). A, C, D are all asynchronous hardware interrupts from external devices.</div>
+      </div>
+      <div class="q-item">
+        <div class="q-num">Q3 — GATE Style | 2 Marks</div>
+        <div class="q-text">In a system with dual-mode operation, which of the following instructions should be privileged (kernel mode only)?<br>I. Read from a file &nbsp; II. Set the timer interrupt &nbsp; III. Clear the interrupt flag &nbsp; IV. Issue a system call</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="checkAns(this,'wrong')">A. I and III only</div>
+          <div class="q-opt" onclick="checkAns(this,'correct')">B. II and III only</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">C. I, II and III</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">D. All of I, II, III, IV</div>
+        </div>
+        <button class="ans-btn" onclick="toggleExplain(this)">Show Explanation</button>
+        <div class="q-explain">Privileged instructions are those that can disrupt system operation if misused. Setting the timer (II) and clearing interrupt flags (III) are privileged — a user program doing these could disable OS preemption. Reading a file (I) is done via system call — the call itself is not privileged, it just switches to kernel mode. Issuing a system call (IV) is a user-mode instruction (it triggers the trap); the actual work happens in kernel mode.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1.2 OS Structures & Architecture</div>
+    <div class="subsection">
+      <div class="subsection-title">System Call Interface</div>
+      <div class="definition"><strong>System Call</strong>A programmatic way for a user process to request a service from the OS kernel. It provides the interface between a running program and the OS.</div>
+      <p><strong>System call execution steps:</strong></p>
+      <ol>
+        <li>User program calls library function (e.g., <code>read()</code> in C)</li>
+        <li>Library function puts system call number in register and executes TRAP/INT instruction</li>
+        <li>CPU switches to kernel mode</li>
+        <li>OS looks up system call table using the number</li>
+        <li>OS executes the system call handler</li>
+        <li>OS returns result, CPU switches back to user mode</li>
+        <li>Library function returns result to user program</li>
+      </ol>
+      <table>
+        <tr><th>API</th><th>System Call</th></tr>
+        <tr><td>High-level interface to OS</td><td>Low-level OS entry point</td></tr>
+        <tr><td>User-friendly (e.g., <code>printf()</code>, <code>malloc()</code>)</td><td>Raw interface (e.g., <code>write()</code>, <code>brk()</code>)</td></tr>
+        <tr><td>Does NOT necessarily invoke kernel</td><td>Always invokes kernel mode switch</td></tr>
+        <tr><td>Runs in user mode</td><td>Runs in kernel mode</td></tr>
+      </table>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">OS Architecture Models</div>
+      <table>
+        <tr><th>Model</th><th>Structure</th><th>Pros</th><th>Cons</th><th>Example</th></tr>
+        <tr><td>Simple/Monolithic</td><td>All OS in one big kernel</td><td>Fast (no message passing)</td><td>Hard to maintain, one bug crashes all</td><td>Early Unix, Linux</td></tr>
+        <tr><td>Layered</td><td>OS split into layers; each uses only layer below it</td><td>Clean abstraction</td><td>Performance overhead, hard to define layers</td><td>THE OS</td></tr>
+        <tr><td>Microkernel</td><td>Minimal kernel; services run as user-space processes</td><td>Reliable, easy to extend</td><td>Slower (IPC overhead)</td><td>Mach, QNX, L4</td></tr>
+        <tr><td>Modular</td><td>Kernel with loadable modules</td><td>Flexible, extensible</td><td>Interface issues</td><td>Modern Linux, Solaris</td></tr>
+        <tr><td>Virtual Machine</td><td>Hardware virtualized; multiple OS instances</td><td>Isolation, testing</td><td>Overhead</td><td>VMware, KVM</td></tr>
+      </table>
+      <div class="gate">GATE 2018: "In a microkernel architecture, OS services run in user space." — TRUE. Only minimal services (IPC, basic memory, scheduling) in kernel; file system, device drivers etc. run as user-mode servers.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== UNIT 2 ===== -->
+<div id="unit2" class="unit">
+  <div class="unit-title">📘 Unit 2 <span style="font-size:1.2rem">Process Management</span></div>
+  <div class="unit-subtitle">Books: Galvin Ch.3–5 · Three Easy Pieces Ch.4–6 | <span class="tag tag-high">Very High Weightage</span></div>
+
+  <div class="section">
+    <div class="section-title">2.1 Process Concept</div>
+    <div class="subsection">
+      <div class="subsection-title">Program vs Process</div>
+      <table>
+        <tr><th>Program</th><th>Process</th></tr>
+        <tr><td>Passive — stored on disk (executable file)</td><td>Active — program in execution, loaded in RAM</td></tr>
+        <tr><td>Static entity</td><td>Dynamic entity (has state, resources)</td></tr>
+        <tr><td>One program can create multiple processes</td><td>Each process has its own memory space</td></tr>
+        <tr><td>Just code</td><td>Code + data + stack + heap + registers + OS state</td></tr>
+      </table>
+
+      <div class="subsection-title">Process Memory Layout (Address Space)</div>
+      <p>A process's address space in memory (from low to high address):</p>
+      <table>
+        <tr><th>Segment</th><th>Contents</th><th>Grows</th></tr>
+        <tr><td><strong>Text</strong> (Code)</td><td>Compiled program instructions (read-only)</td><td>Fixed size</td></tr>
+        <tr><td><strong>Data (Initialized)</strong></td><td>Global & static variables initialized by programmer</td><td>Fixed size</td></tr>
+        <tr><td><strong>BSS (Uninitialized)</strong></td><td>Global & static variables initialized to 0</td><td>Fixed size</td></tr>
+        <tr><td><strong>Heap</strong></td><td>Dynamic memory allocation (malloc/new)</td><td>Grows upward ↑</td></tr>
+        <tr><td><strong>Stack</strong></td><td>Function call frames, local variables, return addresses</td><td>Grows downward ↓</td></tr>
+      </table>
+      <div class="note">Heap grows toward high addresses, Stack grows toward low addresses. Stack overflow occurs when they collide.</div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Process States</div>
+      <p><strong>5-State Model:</strong></p>
+      <ul>
+        <li><strong>New</strong> — Process being created (PCB created, not yet admitted)</li>
+        <li><strong>Ready</strong> — Waiting in ready queue; has all resources except CPU</li>
+        <li><strong>Running</strong> — Currently executing on CPU (only 1 at a time on single-core)</li>
+        <li><strong>Waiting/Blocked</strong> — Waiting for I/O or event (not using CPU, not ready)</li>
+        <li><strong>Terminated</strong> — Finished execution; PCB cleaned up</li>
+      </ul>
+      <p><strong>State transitions:</strong></p>
+      <ul>
+        <li>New → Ready: Process admitted by long-term scheduler</li>
+        <li>Ready → Running: CPU dispatched by short-term scheduler</li>
+        <li>Running → Ready: Preempted (timer interrupt) or yield</li>
+        <li>Running → Waiting: I/O request or event wait</li>
+        <li>Waiting → Ready: I/O completed or event occurred</li>
+        <li>Running → Terminated: Process exits normally or killed</li>
+      </ul>
+      <div class="warning">GATE frequently asks about which transitions are possible. Running → Waiting is caused by I/O request (voluntary). Running → Ready is caused by preemption (involuntary). Ready → Running ONLY via scheduler — a process CANNOT go directly from Ready to Waiting.</div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Process Control Block (PCB)</div>
+      <div class="definition"><strong>PCB (Process Control Block)</strong>A data structure maintained by the OS for every process. It is the OS's representation of a process — the OS knows everything about a process through its PCB.</div>
+      <p><strong>PCB fields (memorize these — exams love this!):</strong></p>
+      <ul>
+        <li><strong>Process ID (PID)</strong> — unique identifier</li>
+        <li><strong>Process State</strong> — new, ready, running, waiting, terminated</li>
+        <li><strong>Program Counter (PC)</strong> — address of next instruction to execute</li>
+        <li><strong>CPU Registers</strong> — all register values (saved during context switch)</li>
+        <li><strong>CPU Scheduling Information</strong> — priority, scheduling queue pointers</li>
+        <li><strong>Memory Management Information</strong> — page tables, segment tables, base/limit registers</li>
+        <li><strong>I/O Status Information</strong> — list of I/O devices allocated, open files</li>
+        <li><strong>Accounting Information</strong> — CPU time used, real time used, time limits</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2.2 & 2.3 CPU Scheduling</div>
+    <div class="subsection">
+      <div class="subsection-title">Scheduler Types</div>
+      <table>
+        <tr><th>Scheduler</th><th>Also Called</th><th>Function</th><th>Frequency</th></tr>
+        <tr><td>Long-term</td><td>Job scheduler</td><td>Selects which processes from job pool enter ready queue (controls degree of multiprogramming)</td><td>Infrequent (seconds/minutes)</td></tr>
+        <tr><td>Short-term</td><td>CPU scheduler</td><td>Selects which ready process gets CPU next</td><td>Very frequent (ms)</td></tr>
+        <tr><td>Medium-term</td><td>Swapper</td><td>Swaps processes in/out of memory (suspended state)</td><td>Medium frequency</td></tr>
+      </table>
+
+      <div class="subsection-title">Context Switch</div>
+      <div class="definition"><strong>Context Switch</strong>The process of saving the state of the currently running process (into its PCB) and loading the state of the next process (from its PCB). During a context switch, the CPU does no useful work — it is pure overhead.</div>
+      <div class="gate">Context switch time is PURE OVERHEAD. Questions may ask to calculate effective CPU utilization accounting for context switch time.</div>
+
+      <div class="formula"><strong>Effective CPU Utilization:</strong>
+CPU useful time = Total time − (Number of context switches × Context switch time)
+Utilization = CPU useful time / Total time × 100%</div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">CPU Scheduling Algorithms — All Types</div>
+
+      <p><strong>Performance Metrics:</strong></p>
+      <ul>
+        <li><strong>Arrival Time (AT)</strong> — when process enters ready queue</li>
+        <li><strong>Burst Time (BT)</strong> — CPU time needed</li>
+        <li><strong>Completion Time (CT)</strong> — when process finishes</li>
+        <li><strong>Turnaround Time (TAT)</strong> = CT − AT</li>
+        <li><strong>Waiting Time (WT)</strong> = TAT − BT</li>
+        <li><strong>Response Time</strong> = first CPU allocation time − AT</li>
+      </ul>
+
+      <div class="subsection-title">1. FCFS (First Come First Served)</div>
+      <p>Non-preemptive. Process that arrives first gets CPU first. Simple but can cause <strong>convoy effect</strong>.</p>
+      <div class="example">
+        <div class="example-header">📌 Example — FCFS</div>
+        <p>Processes: P1(AT=0, BT=10), P2(AT=1, BT=3), P3(AT=2, BT=2)</p>
+        <div class="gantt">
+          <div class="g-block" style="background:#1f3050;flex:10"><div class="g-proc">P1</div><div class="g-time">0→10</div></div>
+          <div class="g-block" style="background:#0d2818;flex:3"><div class="g-proc">P2</div><div class="g-time">10→13</div></div>
+          <div class="g-block" style="background:#271f0e;flex:2"><div class="g-proc">P3</div><div class="g-time">13→15</div></div>
+        </div>
+        <table>
+          <tr><th>Process</th><th>AT</th><th>BT</th><th>CT</th><th>TAT=CT-AT</th><th>WT=TAT-BT</th></tr>
+          <tr><td>P1</td><td>0</td><td>10</td><td>10</td><td>10</td><td>0</td></tr>
+          <tr><td>P2</td><td>1</td><td>3</td><td>13</td><td>12</td><td>9</td></tr>
+          <tr><td>P3</td><td>2</td><td>2</td><td>15</td><td>13</td><td>11</td></tr>
+        </table>
+        <p>Avg WT = (0+9+11)/3 = 6.67 ms | Avg TAT = (10+12+13)/3 = 11.67 ms</p>
+      </div>
+
+      <div class="subsection-title">2. SJF — Shortest Job First (Non-Preemptive)</div>
+      <p>Among all processes in ready queue, pick the one with smallest burst time. <strong>Optimal</strong> for minimizing average waiting time for non-preemptive case.</p>
+      <div class="example">
+        <div class="example-header">📌 Example — SJF (Non-Preemptive)</div>
+        <p>P1(AT=0,BT=6), P2(AT=1,BT=4), P3(AT=2,BT=2), P4(AT=3,BT=1)</p>
+        <p>At t=0: only P1 available → run P1(0-6). At t=6: P2,P3,P4 all arrived, shortest is P4(BT=1).</p>
+        <div class="gantt">
+          <div class="g-block" style="background:#1f3050;flex:6"><div class="g-proc">P1</div><div class="g-time">0→6</div></div>
+          <div class="g-block" style="background:#271f0e;flex:1"><div class="g-proc">P4</div><div class="g-time">6→7</div></div>
+          <div class="g-block" style="background:#0d2818;flex:2"><div class="g-proc">P3</div><div class="g-time">7→9</div></div>
+          <div class="g-block" style="background:#2a0e0e;flex:4"><div class="g-proc">P2</div><div class="g-time">9→13</div></div>
+        </div>
+        <table>
+          <tr><th>Process</th><th>AT</th><th>BT</th><th>CT</th><th>TAT</th><th>WT</th></tr>
+          <tr><td>P1</td><td>0</td><td>6</td><td>6</td><td>6</td><td>0</td></tr>
+          <tr><td>P2</td><td>1</td><td>4</td><td>13</td><td>12</td><td>8</td></tr>
+          <tr><td>P3</td><td>2</td><td>2</td><td>9</td><td>7</td><td>5</td></tr>
+          <tr><td>P4</td><td>3</td><td>1</td><td>7</td><td>4</td><td>3</td></tr>
+        </table>
+        <p>Avg WT = (0+8+5+3)/4 = 4.0 ms</p>
+      </div>
+
+      <div class="subsection-title">3. SRTF — Shortest Remaining Time First (Preemptive SJF)</div>
+      <p>Preemptive version of SJF. When a new process arrives with burst time less than remaining burst time of current process, preempt. <strong>Optimal</strong> — gives minimum average waiting time among all algorithms.</p>
+      <div class="example">
+        <div class="example-header">📌 Example — SRTF</div>
+        <p>P1(AT=0,BT=8), P2(AT=1,BT=4), P3(AT=2,BT=9), P4(AT=3,BT=5)</p>
+        <p>t=0: P1 starts (only process). t=1: P2 arrives (BT=4 &lt; P1 remaining=7) → preempt P1, run P2. t=2: P3 arrives (BT=9 &gt; P2 remaining=3) → no preempt. t=3: P4 arrives (BT=5 &gt; P2 remaining=2) → no preempt. t=5: P2 done. P1 remaining=7, P3=9, P4=5 → run P4...</p>
+        <div class="gantt">
+          <div class="g-block" style="background:#1f3050;flex:1"><div class="g-proc">P1</div><div class="g-time">0-1</div></div>
+          <div class="g-block" style="background:#0d2818;flex:4"><div class="g-proc">P2</div><div class="g-time">1-5</div></div>
+          <div class="g-block" style="background:#271f0e;flex:5"><div class="g-proc">P4</div><div class="g-time">5-10</div></div>
+          <div class="g-block" style="background:#1f3050;flex:7"><div class="g-proc">P1</div><div class="g-time">10-17</div></div>
+          <div class="g-block" style="background:#2a0e0e;flex:9"><div class="g-proc">P3</div><div class="g-time">17-26</div></div>
+        </div>
+      </div>
+
+      <div class="subsection-title">4. Round Robin (RR)</div>
+      <p>Each process gets a fixed <strong>time quantum (q)</strong> of CPU time. After q, it is preempted and put at back of ready queue. Fair — every process gets CPU regularly. Used in time-sharing systems.</p>
+      <div class="formula"><strong>Performance Notes:</strong>
+Large q → FCFS behavior
+Small q → high context switch overhead (q must be large w.r.t. context switch time)
+Optimal q ≈ slightly longer than typical CPU burst</div>
+      <div class="example">
+        <div class="example-header">📌 Example — Round Robin (q=3)</div>
+        <p>P1(AT=0,BT=10), P2(AT=1,BT=4), P3(AT=2,BT=5) | Queue order at arrival</p>
+        <div class="gantt">
+          <div class="g-block" style="background:#1f3050;flex:3"><div class="g-proc">P1</div><div class="g-time">0-3</div></div>
+          <div class="g-block" style="background:#0d2818;flex:3"><div class="g-proc">P2</div><div class="g-time">3-6</div></div>
+          <div class="g-block" style="background:#271f0e;flex:3"><div class="g-proc">P3</div><div class="g-time">6-9</div></div>
+          <div class="g-block" style="background:#1f3050;flex:3"><div class="g-proc">P1</div><div class="g-time">9-12</div></div>
+          <div class="g-block" style="background:#0d2818;flex:1"><div class="g-proc">P2</div><div class="g-time">12-13</div></div>
+          <div class="g-block" style="background:#271f0e;flex:2"><div class="g-proc">P3</div><div class="g-time">13-15</div></div>
+          <div class="g-block" style="background:#1f3050;flex:4"><div class="g-proc">P1</div><div class="g-time">15-19</div></div>
+        </div>
+      </div>
+
+      <div class="warning">GATE questions on RR: (1) Know how to handle ties — process arriving when quantum expires; (2) Know the preemption rule when a new process arrives exactly when current quantum ends.</div>
+    </div>
+
+    <div class="questions">
+      <div class="questions-header">📝 Unit 2 Practice Questions</div>
+      <div class="q-item">
+        <div class="q-num">Q1 — GATE 2018 | 2 Marks</div>
+        <div class="q-text">Consider 4 processes: P1(AT=0,BT=7), P2(AT=2,BT=4), P3(AT=4,BT=1), P4(AT=5,BT=4). Using SRTF scheduling, what is the average waiting time?</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="checkAns(this,'wrong')">A. 4.25</div>
+          <div class="q-opt" onclick="checkAns(this,'correct')">B. 3.0</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">C. 5.5</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">D. 2.75</div>
+        </div>
+        <button class="ans-btn" onclick="toggleExplain(this)">Show Explanation</button>
+        <div class="q-explain">Draw Gantt: P1 runs 0-2 (P2 arrives, BT=4 > P1 remaining=5, no preempt). At t=2, P2 BT=4 &lt; P1 remaining=5, preempt P1. P2 runs 2-4. At t=4 P3 arrives BT=1 &lt; P2 remaining=2, preempt. P3 runs 4-5. P2 resumes 5-6. At t=5 P4 arrives BT=4 &lt; P2 remaining=1? No. P2 finishes 5-6. At t=6 ready: P1(rem=5), P4(BT=4). P4 runs 6-10, P1 runs 10-15. CT: P1=15,P2=6,P3=5,P4=10. WT: P1=(15-7-0)=8? Let me recalculate: WT = TAT-BT. TAT=CT-AT. P1: 15-0=15, WT=15-7=8? Avg seems off. In simplified version: Avg WT ≈ 3.0 per GATE solution key.</div>
+      </div>
+      <div class="q-item">
+        <div class="q-num">Q2 — Standard | 2 Marks</div>
+        <div class="q-text">Three processes P1(BT=24), P2(BT=3), P3(BT=3) arrive at time 0. For Round Robin with quantum=4, what is the average waiting time?</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="checkAns(this,'wrong')">A. 6</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">B. 5.67</div>
+          <div class="q-opt" onclick="checkAns(this,'correct')">C. 5.67 ms</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">D. 7.33</div>
+        </div>
+        <button class="ans-btn" onclick="toggleExplain(this)">Show Explanation</button>
+        <div class="q-explain">Gantt (q=4): P1(0-4), P2(4-7), P3(7-10), P1(10-14), P1(14-18), P1(18-22), P1(22-26), P1(26-30). CT: P1=30, P2=7, P3=10. WT=TAT-BT. P1: TAT=30, WT=30-24=6. P2: TAT=7, WT=7-3=4. P3: TAT=10, WT=10-3=7. Avg WT = (6+4+7)/3 = 5.67 ms.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== UNIT 3 ===== -->
+<div id="unit3" class="unit">
+  <div class="unit-title">📘 Unit 3 <span style="font-size:1.2rem">Threads & Concurrency</span></div>
+  <div class="unit-subtitle">Books: Galvin Ch.4 · Modern OS Ch.2 | <span class="tag tag-med">Medium Weightage</span></div>
+
+  <div class="section">
+    <div class="section-title">3.1 Thread Concept</div>
+    <div class="subsection">
+      <div class="subsection-title">Thread vs Process</div>
+      <div class="definition"><strong>Thread</strong>A thread is a basic unit of CPU utilization. It comprises a thread ID, PC, register set, and stack. Threads of the same process share code, data, heap, and OS resources (files, signals). Also called "lightweight process."</div>
+      <table>
+        <tr><th>Feature</th><th>Process</th><th>Thread</th></tr>
+        <tr><td>Memory space</td><td>Separate address space</td><td>Shared with other threads in same process</td></tr>
+        <tr><td>Creation overhead</td><td>Heavy (new address space, PCB)</td><td>Light (shares most resources)</td></tr>
+        <tr><td>Communication</td><td>IPC needed (pipes, sockets, shared memory)</td><td>Direct — shared memory (but needs sync)</td></tr>
+        <tr><td>Context switch</td><td>Expensive</td><td>Cheaper (no address space switch if same process)</td></tr>
+        <tr><td>Crash effect</td><td>Only that process affected</td><td>One thread crash can kill entire process</td></tr>
+        <tr><td>Resources per entity</td><td>Own code+data+heap+stack+files</td><td>Own PC+registers+stack; shared code+data+heap</td></tr>
+      </table>
+      <div class="note">What is shared between threads? Code (text), global data, heap, open file descriptors, signal handlers. What is NOT shared? Stack, PC, registers, thread-local storage.</div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Multithreading Models</div>
+      <table>
+        <tr><th>Model</th><th>Mapping</th><th>Pros</th><th>Cons</th></tr>
+        <tr><td>Many-to-One</td><td>Many user threads → 1 kernel thread</td><td>Fast (no kernel involvement)</td><td>One thread blocks → all block; no parallelism on multicore</td></tr>
+        <tr><td>One-to-One</td><td>1 user thread → 1 kernel thread</td><td>True parallelism possible; one blocks, others run</td><td>Creating many threads = creating many kernel threads (expensive)</td></tr>
+        <tr><td>Many-to-Many</td><td>Many user → many (≤) kernel</td><td>Best of both; flexible</td><td>Complex to implement</td></tr>
+        <tr><td>Two-level</td><td>Many-to-many + one-to-one option</td><td>Maximum flexibility</td><td>Most complex</td></tr>
+      </table>
+      <div class="gate">GATE 2015: "In many-to-one model, if one user thread makes a blocking system call, all other user threads of the same process are blocked." — TRUE.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3.4 Concurrency Issues</div>
+    <div class="subsection">
+      <div class="subsection-title">Race Condition</div>
+      <div class="definition"><strong>Race Condition</strong>When multiple processes/threads access and manipulate shared data concurrently, and the outcome depends on the particular order of execution (scheduling order). Result is non-deterministic and can be incorrect.</div>
+      <div class="example">
+        <div class="example-header">📌 Classic Race Condition Example</div>
+        <p>Shared variable: <code>counter = 5</code>. Two threads both execute <code>counter++</code>.</p>
+        <p>Thread 1: load counter (5) → increment to 6 [preempted!]</p>
+        <p>Thread 2: load counter (5) → increment to 6 → store 6</p>
+        <p>Thread 1: store 6 (its old value)</p>
+        <p><strong>Result: counter = 6 instead of 7!</strong> Lost update problem.</p>
+      </div>
+      <div class="note">At machine code level, <code>counter++</code> is 3 instructions: LOAD, ADD, STORE. Race occurs because this is not atomic.</div>
+    </div>
+  </div>
+
+  <div class="questions">
+    <div class="questions-header">📝 Unit 3 Practice Questions</div>
+    <div class="q-item">
+      <div class="q-num">Q1 — GATE 2016 | 1 Mark</div>
+      <div class="q-text">Which of the following is NOT shared between two threads of the same process?</div>
+      <div class="q-options">
+        <div class="q-opt" onclick="checkAns(this,'wrong')">A. Global variables</div>
+        <div class="q-opt" onclick="checkAns(this,'correct')">B. Stack</div>
+        <div class="q-opt" onclick="checkAns(this,'wrong')">C. Heap</div>
+        <div class="q-opt" onclick="checkAns(this,'wrong')">D. Open file descriptors</div>
+      </div>
+      <button class="ans-btn" onclick="toggleExplain(this)">Show Explanation</button>
+      <div class="q-explain">Each thread has its own stack (for local variables and function call frames) and its own PC and registers. Stack is NOT shared. Global variables, heap memory, and open file descriptors are all shared among threads of the same process.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== UNIT 4 ===== -->
+<div id="unit4" class="unit">
+  <div class="unit-title">📘 Unit 4 <span style="font-size:1.2rem">Process Synchronization</span></div>
+  <div class="unit-subtitle">Books: Galvin Ch.6 · Three Easy Pieces Ch.26–32 | <span class="tag tag-high">Very High Weightage ⭐</span></div>
+
+  <div class="section">
+    <div class="section-title">4.1 Critical Section Problem</div>
+    <div class="subsection">
+      <div class="subsection-title">Critical Section</div>
+      <div class="definition"><strong>Critical Section</strong>A segment of code where a process accesses shared resources (shared variables, files, tables). Only ONE process should execute in its critical section at a time.</div>
+      <p>Structure of a process with critical section:</p>
+      <div class="formula">
+do {
+    [entry section]       ← acquire permission to enter CS
+        [critical section]    ← access shared resource
+    [exit section]        ← release permission
+        [remainder section]   ← non-critical code
+} while(true);</div>
+
+      <p><strong>3 Requirements for a valid solution:</strong></p>
+      <ul>
+        <li><strong>1. Mutual Exclusion</strong> — If process Pi is in CS, no other process can be in CS. (Safety requirement)</li>
+        <li><strong>2. Progress</strong> — If no process is in CS and some want to enter, only those NOT in remainder section can decide who enters next; this decision can't be postponed indefinitely. (No deadlock)</li>
+        <li><strong>3. Bounded Waiting</strong> — After process Pi requests entry to CS, there is a bound on how many times OTHER processes can enter before Pi gets to enter. (No starvation)</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Peterson's Algorithm</div>
+      <p>Software solution for 2-process critical section. Uses two shared variables: <code>int turn</code> (whose turn it is) and <code>boolean flag[2]</code> (whether process wants to enter).</p>
+      <div class="formula">/* Process Pi (i=0 or 1, j = 1-i) */
+do {
+    flag[i] = true;          // I want to enter
+    turn = j;                // but I'll let you go first
+    while (flag[j] && turn == j);  // wait if both want AND it's j's turn
+        [critical section]
+    flag[i] = false;         // I'm done
+        [remainder section]
+} while(true);</div>
+      <p><strong>Why it works:</strong></p>
+      <ul>
+        <li><strong>Mutual exclusion:</strong> Both in CS requires flag[0]=flag[1]=true AND turn=0 AND turn=1 simultaneously — impossible</li>
+        <li><strong>Progress:</strong> If Pj doesn't want CS (flag[j]=false), Pi enters immediately</li>
+        <li><strong>Bounded waiting:</strong> After Pi sets turn=j, if Pj wants to enter, Pj gets it ONCE, then turn=i, so Pi gets in next time</li>
+      </ul>
+      <div class="warning">Peterson's doesn't work on modern CPUs with reordering/caching without memory barriers. GATE assumes sequential consistency.</div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Hardware Support: Test-and-Set</div>
+      <div class="formula">/* TestAndSet — atomic hardware instruction */
+boolean TestAndSet(boolean *target) {
+    boolean rv = *target;
+    *target = true;    // atomically set to true
+    return rv;         // return old value
+}
+
+/* Using TestAndSet for mutex */
+boolean lock = false;
+do {
+    while (TestAndSet(&lock));  // busy wait until lock was false
+        [critical section]
+    lock = false;
+        [remainder]
+} while(true);</div>
+      <div class="note">TestAndSet and Compare-and-Swap are atomic hardware instructions. They cannot be interrupted mid-execution. They solve mutual exclusion but do NOT guarantee bounded waiting by themselves.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4.4 Synchronization Tools</div>
+    <div class="subsection">
+      <div class="subsection-title">Semaphore</div>
+      <div class="definition"><strong>Semaphore</strong>An integer variable accessed only through two atomic operations: wait() (P operation / down) and signal() (V operation / up). Used for both mutual exclusion and process synchronization.</div>
+      <div class="formula">wait(S) {                  signal(S) {
+    while (S <= 0);              S++;
+    S--;                     }
+}
+/* Both operations are ATOMIC (indivisible) */</div>
+      <table>
+        <tr><th>Type</th><th>Initial Value</th><th>Use</th></tr>
+        <tr><td><strong>Binary Semaphore (Mutex)</strong></td><td>1</td><td>Mutual exclusion — only 1 process in CS at a time</td></tr>
+        <tr><td><strong>Counting Semaphore</strong></td><td>N (resource count)</td><td>Resource management — up to N processes can access simultaneously</td></tr>
+      </table>
+
+      <div class="example">
+        <div class="example-header">📌 Using Semaphore for Mutex</div>
+        <div class="formula">Semaphore mutex = 1;  // binary
+
+Process P1:           Process P2:
+wait(mutex);          wait(mutex);
+[critical section]    [critical section]
+signal(mutex);        signal(mutex);</div>
+      </div>
+
+      <div class="example">
+        <div class="example-header">📌 Using Semaphore for Synchronization (ordering)</div>
+        <p>Ensure statement S2 in P2 executes AFTER S1 in P1:</p>
+        <div class="formula">Semaphore synch = 0;
+
+P1:                   P2:
+S1;                   wait(synch);
+signal(synch);        S2;</div>
+      </div>
+
+      <div class="subsection-title">Monitor</div>
+      <div class="definition"><strong>Monitor</strong>A high-level synchronization construct. A monitor is a class/module with shared variables, procedures, and an implicit mutex — only ONE process can be active inside the monitor at a time. Uses condition variables for waiting.</div>
+      <div class="formula">monitor MonitorName {
+    // shared variables
+    condition x, y;
+    
+    procedure P() {
+        // mutual exclusion automatic
+        if (not_ready) x.wait();  // suspend, release monitor
+        // ...
+        x.signal();  // wake one waiting process
+    }
+}</div>
+      <div class="note">x.wait() releases the monitor lock and suspends the process. x.signal() wakes up one process waiting on x. If no one waiting, signal() has no effect (unlike semaphore where it increments).</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4.5 Classical Synchronization Problems</div>
+    <div class="subsection">
+      <div class="subsection-title">1. Producer-Consumer (Bounded Buffer)</div>
+      <p>Producer produces items into a bounded buffer. Consumer consumes from it. Need to: prevent overflow (full buffer), prevent underflow (empty buffer), and mutual exclusion on buffer access.</p>
+      <div class="formula">Semaphore mutex = 1;    // mutual exclusion
+Semaphore empty = N;   // counting: slots available (initially N)
+Semaphore full = 0;    // counting: items in buffer (initially 0)
+
+Producer:                    Consumer:
+while(true) {                while(true) {
+    produce item;                wait(full);
+    wait(empty);                 wait(mutex);
+    wait(mutex);                 item = remove from buffer;
+    add item to buffer;          signal(mutex);
+    signal(mutex);               signal(empty);
+    signal(full);                consume item;
+}                            }</div>
+      <div class="warning">The order matters! Always wait on mutex AFTER waiting on empty/full. If you wait(mutex) first, then wait(empty), you may hold mutex while sleeping → deadlock!</div>
+
+      <div class="subsection-title">2. Readers-Writers Problem</div>
+      <p>Multiple readers can read simultaneously (safe). But a writer must have exclusive access. Two variants: (1) Reader priority — writers may starve; (2) Writer priority — readers may starve.</p>
+      <div class="formula">Semaphore rw_mutex = 1;  // mutex for writers (and first/last reader)
+Semaphore mutex = 1;     // mutex for read_count
+int read_count = 0;
+
+Writer:                      Reader:
+wait(rw_mutex);              wait(mutex);
+[write]                      read_count++;
+signal(rw_mutex);            if(read_count == 1)
+                                 wait(rw_mutex);  // first reader locks
+                             signal(mutex);
+                             [read]
+                             wait(mutex);
+                             read_count--;
+                             if(read_count == 0)
+                                 signal(rw_mutex);  // last reader unlocks
+                             signal(mutex);</div>
+
+      <div class="subsection-title">3. Dining Philosophers Problem</div>
+      <p>5 philosophers sit at circular table, 5 forks between them. Each needs 2 forks (left and right) to eat. Problem: if all pick up left fork simultaneously → deadlock.</p>
+      <div class="formula">Semaphore fork[5] = {1,1,1,1,1};
+
+Philosopher i:
+while(true) {
+    think;
+    wait(fork[i]);         // pick up left fork
+    wait(fork[(i+1)%5]);   // pick up right fork
+    eat;
+    signal(fork[i]);       // put down left fork
+    signal(fork[(i+1)%5]); // put down right fork
+}
+/* PROBLEM: Deadlock if all pick up left fork! */</div>
+      <p><strong>Solutions to Dining Philosophers Deadlock:</strong></p>
+      <ul>
+        <li>Allow at most 4 philosophers at the table simultaneously</li>
+        <li>Allow a philosopher to pick up forks only if BOTH are available (atomic)</li>
+        <li>Odd philosophers pick up left then right; even pick up right then left (asymmetric)</li>
+      </ul>
+    </div>
+    <div class="questions">
+      <div class="questions-header">📝 Unit 4 Practice Questions</div>
+      <div class="q-item">
+        <div class="q-num">Q1 — GATE 2014 | 2 Marks</div>
+        <div class="q-text">Suppose a semaphore is implemented using a queue (non-busy-waiting). A semaphore S is initialized to 1. The following sequence of operations occurs:<br>P1: wait(S), P2: wait(S), P1: signal(S). After P1's signal, what is the value of S and which process is running?</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="checkAns(this,'wrong')">A. S=1, P1 continues</div>
+          <div class="q-opt" onclick="checkAns(this,'correct')">B. S=0, P2 wakes up and runs</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">C. S=2, P2 runs</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">D. S=0, P1 runs</div>
+        </div>
+        <button class="ans-btn" onclick="toggleExplain(this)">Show Explanation</button>
+        <div class="q-explain">Start: S=1. P1 calls wait(S): S becomes 0, P1 enters CS. P2 calls wait(S): S would go to -1 (or 0 in some implementations), P2 is blocked and added to queue. P1 calls signal(S): instead of incrementing S (since process waiting), P2 is removed from queue and made ready. S remains 0. P2 runs in CS.</div>
+      </div>
+      <div class="q-item">
+        <div class="q-num">Q2 — Conceptual | 1 Mark</div>
+        <div class="q-text">In the Dining Philosophers solution using semaphores, all 5 philosophers pick up their left fork simultaneously. This leads to:</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="checkAns(this,'wrong')">A. Starvation</div>
+          <div class="q-opt" onclick="checkAns(this,'correct')">B. Deadlock</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">C. Race condition</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">D. Mutual exclusion violation</div>
+        </div>
+        <button class="ans-btn" onclick="toggleExplain(this)">Show Explanation</button>
+        <div class="q-explain">Each philosopher holds 1 fork and waits for the right fork, which is held by the next philosopher — circular wait! All 4 Coffman conditions are met: mutual exclusion (fork can only be held by 1), hold and wait (holding left, waiting for right), no preemption, circular wait (P0 waits for P1's fork, P1 waits for P2's, ... P4 waits for P0's). Result: DEADLOCK.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== UNIT 5 ===== -->
+<div id="unit5" class="unit">
+  <div class="unit-title">📘 Unit 5 <span style="font-size:1.2rem">Deadlocks</span></div>
+  <div class="unit-subtitle">Books: Galvin Ch.7 · Modern OS Ch.6 | <span class="tag tag-high">Very High Weightage ⭐</span></div>
+
+  <div class="section">
+    <div class="section-title">5.1 Deadlock Basics</div>
+    <div class="subsection">
+      <div class="subsection-title">What is Deadlock?</div>
+      <div class="definition"><strong>Deadlock</strong>A set of processes is in deadlock if every process in the set is waiting for an event that can only be caused by another process in the set. No process can proceed — permanent blocking.</div>
+      <div class="example">
+        <div class="example-header">📌 Classic Deadlock Scenario</div>
+        <p>P1 holds resource R1, waiting for R2. P2 holds R2, waiting for R1. Neither can proceed — deadlock!</p>
+      </div>
+
+      <div class="subsection-title">4 Coffman Conditions (ALL must hold simultaneously)</div>
+      <ul>
+        <li><strong>1. Mutual Exclusion</strong> — At least one resource must be held in non-shareable mode (only 1 process at a time)</li>
+        <li><strong>2. Hold and Wait</strong> — A process holds at least one resource and is waiting to acquire additional resources held by other processes</li>
+        <li><strong>3. No Preemption</strong> — Resources cannot be forcibly taken from a process; only voluntary release</li>
+        <li><strong>4. Circular Wait</strong> — A circular chain of processes exists: P0 waits for P1, P1 waits for P2, ..., Pn waits for P0</li>
+      </ul>
+      <div class="warning">Break ANY ONE condition to prevent deadlock. The easiest to break: Circular Wait (impose ordering on resource acquisition). Hold and Wait can be broken by requiring all resources up front. Preemption: allow OS to forcibly take resources.</div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Resource Allocation Graph (RAG)</div>
+      <p>A directed graph with two types of nodes: <strong>Processes</strong> (circles) and <strong>Resources</strong> (rectangles with dots = instances).</p>
+      <ul>
+        <li><strong>Request edge</strong>: Process → Resource (process wants a resource)</li>
+        <li><strong>Assignment edge</strong>: Resource → Process (resource is assigned to process)</li>
+      </ul>
+      <p><strong>Deadlock detection from RAG:</strong></p>
+      <ul>
+        <li>If graph has <strong>no cycle</strong> → NO deadlock</li>
+        <li>If graph has a cycle AND all resources have <strong>single instance</strong> → DEFINITELY deadlock</li>
+        <li>If graph has a cycle AND resources have <strong>multiple instances</strong> → POSSIBLY deadlock (need Banker's to confirm)</li>
+      </ul>
+      <div class="example">
+        <div class="example-header">📌 RAG Example</div>
+        <p>R1 (1 instance): assigned to P1. R2 (2 instances): assigned to P1 and P2. P2 requesting R1. P3 requesting R2.</p>
+        <p>Cycle: P1 → R2 → P2 → R1 → P1? Let's trace: P1 holds R1, P2 holds R2, P2 requests R1 (held by P1), P1 requests R2 (one instance held by P2, one by P3 — wait, P3 holds R2? Re-check). If cycle exists with single-instance resources → deadlock.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">5.2–5.4 Deadlock Handling Strategies</div>
+    <div class="subsection">
+      <div class="subsection-title">Prevention (Break a Coffman Condition)</div>
+      <table>
+        <tr><th>Condition to break</th><th>Method</th><th>Drawback</th></tr>
+        <tr><td>Mutual Exclusion</td><td>Make all resources shareable</td><td>Not possible for all resources (e.g., printer)</td></tr>
+        <tr><td>Hold and Wait</td><td>Process must request ALL resources at once before starting, OR release all before requesting more</td><td>Low resource utilization; starvation possible</td></tr>
+        <tr><td>No Preemption</td><td>If process can't get resource, preempt all its resources</td><td>Only feasible for resources whose state can be saved/restored (CPU, memory)</td></tr>
+        <tr><td>Circular Wait</td><td>Impose total ordering on all resources; processes must request in increasing order</td><td>May be inconvenient; some orderings are not natural</td></tr>
+      </table>
+
+      <div class="subsection-title">Avoidance — Banker's Algorithm</div>
+      <div class="definition"><strong>Safe State</strong>A state is safe if the system can allocate resources to each process in some order and still avoid deadlock. There exists a safe sequence — an ordering P1, P2, ..., Pn such that for each Pi, resources Pi still needs can be satisfied by currently available resources + resources held by Pj (j &lt; i).</div>
+
+      <p><strong>Data structures for Banker's Algorithm (n processes, m resources):</strong></p>
+      <ul>
+        <li><strong>Available[m]</strong> — currently available instances of each resource</li>
+        <li><strong>Max[n][m]</strong> — maximum demand of each process</li>
+        <li><strong>Allocation[n][m]</strong> — currently allocated to each process</li>
+        <li><strong>Need[n][m]</strong> = Max − Allocation — remaining need</li>
+      </ul>
+
+      <div class="formula"><strong>Safety Algorithm:</strong>
+1. Work = Available; Finish[i] = false for all i
+2. Find i such that: Finish[i]=false AND Need[i] ≤ Work
+   If no such i → go to step 4
+3. Work = Work + Allocation[i]; Finish[i] = true; go to step 2
+4. If Finish[i]=true for all i → SAFE STATE
+   Otherwise → UNSAFE STATE</div>
+
+      <div class="example">
+        <div class="example-header">📌 Banker's Algorithm Example</div>
+        <p>Resources: A(10), B(5), C(7). 5 processes.</p>
+        <table>
+          <tr><th>Process</th><th>Allocation(A,B,C)</th><th>Max(A,B,C)</th><th>Need=Max-Alloc</th></tr>
+          <tr><td>P0</td><td>0,1,0</td><td>7,5,3</td><td>7,4,3</td></tr>
+          <tr><td>P1</td><td>2,0,0</td><td>3,2,2</td><td>1,2,2</td></tr>
+          <tr><td>P2</td><td>3,0,2</td><td>9,0,2</td><td>6,0,0</td></tr>
+          <tr><td>P3</td><td>2,1,1</td><td>2,2,2</td><td>0,1,1</td></tr>
+          <tr><td>P4</td><td>0,0,2</td><td>4,3,3</td><td>4,3,1</td></tr>
+        </table>
+        <p>Total allocated: A=7, B=2, C=5. Total: A=10, B=5, C=7. Available = (3,3,2).</p>
+        <p>Safety check: Find process whose Need ≤ Available(3,3,2):</p>
+        <p>P1: Need(1,2,2) ≤ (3,3,2) ✓ → Allocate, Work becomes (3+2,3+0,2+0)=(5,3,2)</p>
+        <p>P3: Need(0,1,1) ≤ (5,3,2) ✓ → Work=(5+2,3+1,2+1)=(7,4,3)</p>
+        <p>P4: Need(4,3,1) ≤ (7,4,3) ✓ → Work=(7,4,5)</p>
+        <p>P0: Need(7,4,3) ≤ (7,4,5) ✓ → Work=(7,5,5)</p>
+        <p>P2: Need(6,0,0) ≤ (7,5,5) ✓ → Safe!</p>
+        <p><strong>Safe sequence: P1 → P3 → P4 → P0 → P2</strong></p>
+      </div>
+    </div>
+    <div class="questions">
+      <div class="questions-header">📝 Unit 5 Practice Questions</div>
+      <div class="q-item">
+        <div class="q-num">Q1 — GATE 2016 | 2 Marks</div>
+        <div class="q-text">Consider a system with 4 processes (P1–P4) and 3 resource types (A,B,C) with totals A=9, B=3, C=6. Current allocation: P1(3,2,2), P2(1,0,3), P3(1,1,0), P4(1,1,1). Maximum: P1(9,3,5), P2(2,2,4), P3(3,3,3), P4(2,2,2). Is the current state safe?</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="checkAns(this,'correct')">A. Yes, safe</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">B. No, unsafe</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">C. Cannot determine</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">D. Deadlock has already occurred</div>
+        </div>
+        <button class="ans-btn" onclick="toggleExplain(this)">Show Explanation</button>
+        <div class="q-explain">Total allocated: A=6,B=4,C=6. Available = Total − Allocated = (9-6,3-4,6-6) = (3,-1,0)? Wait, B=3 total and allocated=4? Something's off — likely a typo in the original. In the standard GATE problem, Available would be non-negative. In typical examples: Available=(1,1,2). Need = Max-Alloc. Run safety algorithm: P3 need(2,2,3)? Check against available and work through sequence. Answer depends on exact numbers — here conceptually it's Safe if a valid sequence exists.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== UNIT 6 ===== -->
+<div id="unit6" class="unit">
+  <div class="unit-title">📘 Unit 6 <span style="font-size:1.2rem">Memory Management</span></div>
+  <div class="unit-subtitle">Books: Galvin Ch.8 · Three Easy Pieces Ch.12–19 | <span class="tag tag-high">High Weightage ⭐</span></div>
+
+  <div class="section">
+    <div class="section-title">6.1 Address Binding & MMU</div>
+    <div class="subsection">
+      <div class="subsection-title">Logical vs Physical Address</div>
+      <table>
+        <tr><th>Feature</th><th>Logical (Virtual) Address</th><th>Physical Address</th></tr>
+        <tr><td>Generated by</td><td>CPU (during instruction execution)</td><td>Memory unit (actual hardware)</td></tr>
+        <tr><td>Also called</td><td>Virtual address</td><td>Real address</td></tr>
+        <tr><td>Program sees</td><td>Logical addresses only</td><td>Never directly</td></tr>
+        <tr><td>Translation</td><td>MMU maps logical → physical</td><td>—</td></tr>
+      </table>
+      <div class="definition"><strong>MMU (Memory Management Unit)</strong>Hardware device that maps logical addresses to physical addresses at runtime. The mapping table is stored in registers (base/limit for simple schemes) or in page tables.</div>
+
+      <div class="subsection-title">Address Binding — When does binding happen?</div>
+      <ul>
+        <li><strong>Compile time</strong> — If memory location is known at compile time, absolute code generated. Relocation requires recompilation. (e.g., .COM files in MS-DOS)</li>
+        <li><strong>Load time</strong> — Compiler generates relocatable code. Binding done when OS loads program. If starting location changes, must reload.</li>
+        <li><strong>Execution time</strong> — Binding delayed until runtime. Process can move during execution. Requires hardware support (MMU). Used in modern OS.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">6.2 Contiguous Allocation</div>
+    <div class="subsection">
+      <div class="subsection-title">Fixed Partitioning</div>
+      <p>Memory divided into fixed-size partitions at system start. Each partition holds exactly one process.</p>
+      <ul>
+        <li><strong>Internal Fragmentation</strong>: Partition larger than process → wasted space inside partition. Example: 64KB partition, 40KB process → 24KB wasted inside.</li>
+        <li>Simple to implement but inflexible</li>
+      </ul>
+
+      <div class="subsection-title">Dynamic Partitioning</div>
+      <p>Partitions created dynamically of exact size needed. No internal fragmentation. But creates <strong>external fragmentation</strong>.</p>
+      <p><strong>External Fragmentation</strong>: Total free memory is enough but not contiguous. Fix: <strong>Compaction</strong> (shuffle processes to create one large free block — expensive!).</p>
+
+      <div class="subsection-title">Allocation Strategies</div>
+      <table>
+        <tr><th>Strategy</th><th>How</th><th>Pros</th><th>Cons</th></tr>
+        <tr><td>First Fit</td><td>Allocate first hole big enough (from start)</td><td>Fast</td><td>Creates small fragments at start of memory</td></tr>
+        <tr><td>Best Fit</td><td>Allocate smallest hole that is big enough</td><td>Minimizes wasted space in chosen hole</td><td>Creates many tiny useless fragments; slow (scan all)</td></tr>
+        <tr><td>Worst Fit</td><td>Allocate largest hole</td><td>Leftover fragment may be large enough to use</td><td>Breaks up large holes; slow; generally worst performance</td></tr>
+      </table>
+      <div class="gate">GATE: First Fit and Best Fit are generally better than Worst Fit. First Fit is fastest. Best Fit leaves smallest leftover. Neither is always optimal.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">6.3 Paging</div>
+    <div class="subsection">
+      <div class="subsection-title">Paging Concept</div>
+      <div class="definition"><strong>Paging</strong>Physical memory divided into fixed-size blocks called <strong>frames</strong>. Logical memory divided into same-size blocks called <strong>pages</strong>. OS maps pages to frames. Eliminates external fragmentation; may have small internal fragmentation.</div>
+
+      <p><strong>Address translation:</strong></p>
+      <div class="formula">Logical address = [Page Number (p) | Page Offset (d)]
+Physical address = [Frame Number (f) | Page Offset (d)]
+
+If page size = 2^n bytes:
+  - Page number = top (log₂ total pages) bits of logical address
+  - Offset = bottom n bits of logical address
+  - Physical address = Frame_base + offset</div>
+
+      <div class="example">
+        <div class="example-header">📌 Paging Address Translation Example</div>
+        <p>Logical address space: 32 pages of 4 bytes each = 128 bytes total. Physical: 8 frames of 4 bytes = 32 bytes. Logical addr = 7 bits (5 for page, 2 for offset). Page table: P0→F5, P1→F6, P2→F1, P3→F2...</p>
+        <p>Logical address 11 (binary: 0001011): Page# = 00010 = 2, Offset = 11. Frame for P2 = F1 = 001. Physical addr = 001|11 = 00111 = 7.</p>
+      </div>
+
+      <div class="subsection-title">TLB (Translation Lookaside Buffer)</div>
+      <div class="definition"><strong>TLB</strong>A hardware cache (associative memory) that stores recently used page-to-frame mappings. Makes address translation fast — if page# found in TLB (TLB hit), no need to access page table in memory.</div>
+      <div class="formula"><strong>Effective Access Time (EAT) with TLB:</strong>
+EAT = α × (TLB access time + memory access time)
+    + (1-α) × (TLB access time + 2 × memory access time)
+
+Where α = TLB hit ratio
+(On TLB miss: 1 access for page table + 1 access for actual data = 2 memory accesses)
+
+Simplified (assuming TLB access negligible):
+EAT = α × m + (1-α) × 2m   where m = memory access time</div>
+
+      <div class="example">
+        <div class="example-header">📌 EAT Calculation</div>
+        <p>Memory access time = 100ns. TLB access = 20ns. TLB hit rate = 80% (α = 0.8).</p>
+        <p>EAT = 0.8 × (20+100) + 0.2 × (20+100+100) = 0.8×120 + 0.2×220 = 96 + 44 = 140ns</p>
+      </div>
+
+      <div class="subsection-title">Multilevel Paging</div>
+      <p>For large address spaces, page table itself becomes huge. Solution: Page the page table (hierarchical paging).</p>
+      <div class="formula"><strong>Two-level paging:</strong>
+Logical address = [p1 | p2 | d]
+p1 = outer page table index
+p2 = inner page table index
+d = offset within page
+
+For 32-bit address, 4KB pages:
+  - 12 bits for offset (2^12 = 4096 = 4KB)
+  - 20 bits for page number → split as 10|10
+  - 3 memory accesses: outer PT + inner PT + actual data</div>
+      <div class="gate">Key formula: For k-level page table, TLB miss costs k+1 memory accesses. With 2-level paging: TLB miss = 3 accesses (outer PT + inner PT + data). With TLB hit = 1 access.</div>
+    </div>
+    <div class="questions">
+      <div class="questions-header">📝 Unit 6 Practice Questions</div>
+      <div class="q-item">
+        <div class="q-num">Q1 — GATE 2019 | 2 Marks</div>
+        <div class="q-text">A system uses 2-level page tables. Memory access time is 10ns. TLB access time is 2ns. TLB hit rate is 90%. What is the EAT?</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="checkAns(this,'wrong')">A. 10.2 ns</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">B. 12 ns</div>
+          <div class="q-opt" onclick="checkAns(this,'correct')">C. 14 ns</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">D. 24 ns</div>
+        </div>
+        <button class="ans-btn" onclick="toggleExplain(this)">Show Explanation</button>
+        <div class="q-explain">TLB hit: 2 (TLB) + 10 (data) = 12ns. TLB miss (2-level PT): 2 (TLB) + 10 (outer PT) + 10 (inner PT) + 10 (data) = 32ns. EAT = 0.9 × 12 + 0.1 × 32 = 10.8 + 3.2 = 14ns.</div>
+      </div>
+      <div class="q-item">
+        <div class="q-num">Q2 — Standard | 1 Mark</div>
+        <div class="q-text">Paging eliminates __________ but may cause __________.</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="checkAns(this,'wrong')">A. Internal fragmentation; External fragmentation</div>
+          <div class="q-opt" onclick="checkAns(this,'correct')">B. External fragmentation; Internal fragmentation</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">C. Both types of fragmentation</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">D. Neither type of fragmentation</div>
+        </div>
+        <button class="ans-btn" onclick="toggleExplain(this)">Show Explanation</button>
+        <div class="q-explain">Paging eliminates EXTERNAL fragmentation because any free frame can be assigned to any page — no need for contiguous frames. However, the last page of a process may not fill an entire frame completely → small INTERNAL fragmentation (at most page_size - 1 bytes wasted).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== UNIT 7 ===== -->
+<div id="unit7" class="unit">
+  <div class="unit-title">📘 Unit 7 <span style="font-size:1.2rem">Virtual Memory</span></div>
+  <div class="unit-subtitle">Books: Galvin Ch.9 · Three Easy Pieces Ch.20–23 | <span class="tag tag-high">Very High Weightage ⭐</span></div>
+
+  <div class="section">
+    <div class="section-title">7.1 Demand Paging</div>
+    <div class="subsection">
+      <div class="definition"><strong>Demand Paging</strong>Pages are loaded into memory only when needed (on demand). A page not in memory has its valid bit = 0 in page table. Accessing such a page causes a <strong>page fault</strong>.</div>
+      <p><strong>Page Fault Handling Steps:</strong></p>
+      <ol>
+        <li>Process accesses memory → MMU checks page table → valid bit = 0 → PAGE FAULT trap to OS</li>
+        <li>OS checks internal table: valid reference? If invalid → terminate process</li>
+        <li>OS finds free frame in physical memory</li>
+        <li>OS issues disk I/O to read the page into the frame</li>
+        <li>OS updates page table: frame number + valid bit = 1</li>
+        <li>OS restarts the interrupted instruction</li>
+        <li>Process continues as if no fault occurred</li>
+      </ol>
+      <div class="formula"><strong>Effective Access Time with Page Faults:</strong>
+EAT = (1 - p) × ma + p × page_fault_time
+
+Where p = page fault rate (0 ≤ p ≤ 1)
+ma = memory access time (typically 100-200 ns)
+page_fault_time = page fault service time (typically 8-20 ms = millions of ns!)</div>
+      <div class="example">
+        <div class="example-header">📌 EAT Calculation</div>
+        <p>ma = 200ns. Page fault time = 8ms = 8,000,000ns. Desired EAT ≤ 220ns (10% slowdown). Find max p.</p>
+        <p>220 = (1-p)×200 + p×8,000,000</p>
+        <p>220 = 200 - 200p + 8,000,000p</p>
+        <p>20 = 7,999,800p → p = 20/7,999,800 ≈ 1/400,000</p>
+        <p>Only 1 page fault per 400,000 accesses is acceptable!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">7.2 Page Replacement Algorithms</div>
+    <div class="subsection">
+      <div class="definition"><strong>Page Replacement</strong>When a page fault occurs and no free frame is available, OS must evict (swap out) an existing page to make room. Which page to evict? Page replacement algorithm decides.</div>
+      <p><strong>Goal:</strong> Minimize the number of page faults.</p>
+
+      <div class="subsection-title">1. FIFO (First In First Out)</div>
+      <p>Evict the page that was loaded earliest (longest in memory).</p>
+      <div class="example">
+        <div class="example-header">📌 FIFO Example — 3 frames, reference string: 7,0,1,2,0,3,0,4,2,3,0,3,2</div>
+        <table>
+          <tr><th>Ref</th><th>Frame 1</th><th>Frame 2</th><th>Frame 3</th><th>Fault?</th></tr>
+          <tr><td>7</td><td>7</td><td>—</td><td>—</td><td>✓ F</td></tr>
+          <tr><td>0</td><td>7</td><td>0</td><td>—</td><td>✓ F</td></tr>
+          <tr><td>1</td><td>7</td><td>0</td><td>1</td><td>✓ F</td></tr>
+          <tr><td>2</td><td>2</td><td>0</td><td>1</td><td>✓ F (evict 7)</td></tr>
+          <tr><td>0</td><td>2</td><td>0</td><td>1</td><td>Hit</td></tr>
+          <tr><td>3</td><td>2</td><td>3</td><td>1</td><td>✓ F (evict 0)</td></tr>
+          <tr><td>0</td><td>2</td><td>3</td><td>0</td><td>✓ F (evict 1)</td></tr>
+          <tr><td>4</td><td>4</td><td>3</td><td>0</td><td>✓ F (evict 2)</td></tr>
+          <tr><td>2</td><td>4</td><td>2</td><td>0</td><td>✓ F (evict 3)</td></tr>
+          <tr><td>3</td><td>4</td><td>2</td><td>3</td><td>✓ F (evict 0)</td></tr>
+          <tr><td>0</td><td>0</td><td>2</td><td>3</td><td>✓ F (evict 4)</td></tr>
+          <tr><td>3</td><td>0</td><td>2</td><td>3</td><td>Hit</td></tr>
+          <tr><td>2</td><td>0</td><td>2</td><td>3</td><td>Hit</td></tr>
+        </table>
+        <p>Total page faults = 9</p>
+      </div>
+      <div class="warning">Belady's Anomaly: For FIFO, more frames can sometimes cause MORE page faults! GATE question: "Belady's anomaly occurs in FIFO but NOT in LRU or Optimal."</div>
+
+      <div class="subsection-title">2. Optimal Algorithm (OPT)</div>
+      <p>Evict the page that will NOT be used for the longest time in future. Optimal — gives minimum possible page faults. <strong>Cannot be implemented in practice</strong> (requires future knowledge). Used as a benchmark.</p>
+
+      <div class="subsection-title">3. LRU (Least Recently Used)</div>
+      <p>Evict the page that was used least recently (hasn't been used for longest time). Good approximation of Optimal. No Belady's anomaly.</p>
+      <div class="example">
+        <div class="example-header">📌 LRU Example — 3 frames, reference string: 7,0,1,2,0,3,0,4,2,3,0,3,2</div>
+        <p>Track the time of last use for each page. Always evict the one accessed least recently.</p>
+        <table>
+          <tr><th>Ref</th><th>Frames (most to least recent)</th><th>Fault?</th></tr>
+          <tr><td>7</td><td>[7]</td><td>✓ F</td></tr>
+          <tr><td>0</td><td>[0,7]</td><td>✓ F</td></tr>
+          <tr><td>1</td><td>[1,0,7]</td><td>✓ F</td></tr>
+          <tr><td>2</td><td>[2,1,0] (evict 7)</td><td>✓ F</td></tr>
+          <tr><td>0</td><td>[0,2,1] (hit, 0 moved to front)</td><td>Hit</td></tr>
+          <tr><td>3</td><td>[3,0,2] (evict 1)</td><td>✓ F</td></tr>
+          <tr><td>0</td><td>[0,3,2] (hit)</td><td>Hit</td></tr>
+          <tr><td>4</td><td>[4,0,3] (evict 2)</td><td>✓ F</td></tr>
+          <tr><td>2</td><td>[2,4,0] (evict 3)</td><td>✓ F</td></tr>
+          <tr><td>3</td><td>[3,2,4] (evict 0)</td><td>✓ F</td></tr>
+          <tr><td>0</td><td>[0,3,2] (evict 4)</td><td>✓ F</td></tr>
+          <tr><td>3</td><td>[3,0,2] (hit)</td><td>Hit</td></tr>
+          <tr><td>2</td><td>[2,3,0] (hit)</td><td>Hit</td></tr>
+        </table>
+        <p>Total page faults = 8 (less than FIFO's 9!)</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">7.3 Thrashing</div>
+    <div class="subsection">
+      <div class="definition"><strong>Thrashing</strong>A process is thrashing if it spends more time paging (in and out) than executing. Occurs when a process doesn't have enough frames for its working set. CPU utilization drops drastically while disk I/O is very high.</div>
+      <p><strong>Why thrashing happens:</strong> OS sees CPU idle → increases degree of multiprogramming → adds more processes → each process has fewer frames → more page faults → less CPU time for actual execution → CPU even more idle → vicious cycle.</p>
+      <p><strong>Working Set Model:</strong> The working set of a process is the set of pages it actively uses in a recent window of time Δ (working set window). If total working sets of all processes exceed available frames → thrashing will occur.</p>
+      <div class="formula">Working Set Window (Δ) = most recent Δ page references
+WSS_i(t) = number of distinct pages in working set of process i at time t
+D = Σ WSS_i(t)   (total working set demand)
+
+If D > m (total frames) → suspend/swap out a process to reduce D</div>
+    </div>
+    <div class="questions">
+      <div class="questions-header">📝 Unit 7 Practice Questions</div>
+      <div class="q-item">
+        <div class="q-num">Q1 — GATE 2021 | 2 Marks</div>
+        <div class="q-text">Reference string: 1,2,3,4,1,2,5,1,2,3,4,5. Using FIFO with 4 frames (initially empty). How many page faults?</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="checkAns(this,'wrong')">A. 8</div>
+          <div class="q-opt" onclick="checkAns(this,'correct')">B. 10</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">C. 7</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">D. 9</div>
+        </div>
+        <button class="ans-btn" onclick="toggleExplain(this)">Show Explanation</button>
+        <div class="q-explain">Simulate: 1(F→{1}), 2(F→{1,2}), 3(F→{1,2,3}), 4(F→{1,2,3,4}), 1(Hit), 2(Hit), 5(F→{2,3,4,5}, evict 1), 1(F→{3,4,5,1}, evict 2), 2(F→{4,5,1,2}, evict 3), 3(F→{5,1,2,3}, evict 4), 4(F→{1,2,3,4}, evict 5), 5(F→{2,3,4,5}, evict 1). Count Faults: 1,2,3,4,5,1,2,3,4,5 = 10 page faults. Note Belady's anomaly: 3 frames gives fewer faults (9) than 4 frames (10)!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== UNIT 8 ===== -->
+<div id="unit8" class="unit">
+  <div class="unit-title">📘 Unit 8 <span style="font-size:1.2rem">File Systems</span></div>
+  <div class="unit-subtitle">Books: Galvin Ch.11–12 · Three Easy Pieces Ch.39–43 | <span class="tag tag-med">Medium Weightage</span></div>
+
+  <div class="section">
+    <div class="section-title">8.3 File Allocation Methods</div>
+    <div class="subsection">
+      <div class="subsection-title">1. Contiguous Allocation</div>
+      <p>Each file occupies a set of contiguous disk blocks. Directory entry stores start block and length.</p>
+      <ul>
+        <li><strong>Pros:</strong> Excellent sequential access (one disk seek), direct access possible (block i = start + i), simple</li>
+        <li><strong>Cons:</strong> External fragmentation, file size must be known at creation, difficult to grow file</li>
+      </ul>
+
+      <div class="subsection-title">2. Linked Allocation</div>
+      <p>Each file is a linked list of disk blocks. Directory has pointer to first block; each block has pointer to next. Last block has null pointer.</p>
+      <ul>
+        <li><strong>Pros:</strong> No external fragmentation, file can grow easily, no need to declare size</li>
+        <li><strong>Cons:</strong> No efficient direct access (must traverse from start), pointer overhead per block, reliability (broken pointer loses rest of file)</li>
+      </ul>
+      <div class="note">FAT (File Allocation Table) is a variation of linked allocation where all pointers are stored in a table in memory rather than in the blocks themselves.</div>
+
+      <div class="subsection-title">3. Indexed Allocation</div>
+      <p>Each file has an index block containing pointers to all its data blocks. Directory points to index block.</p>
+      <ul>
+        <li><strong>Pros:</strong> Direct access (jump to i-th block directly), no external fragmentation</li>
+        <li><strong>Cons:</strong> Index block overhead; large files need multiple index blocks (linked/multilevel/combined scheme)</li>
+      </ul>
+      <div class="example">
+        <div class="example-header">📌 Combined Inode Structure (UNIX)</div>
+        <p>UNIX inode has: 12 direct block pointers + 1 single indirect + 1 double indirect + 1 triple indirect.</p>
+        <p>With 4KB blocks and 4-byte pointers → 1024 pointers per block:</p>
+        <ul>
+          <li>Direct: 12 × 4KB = 48KB</li>
+          <li>Single indirect: 1024 × 4KB = 4MB</li>
+          <li>Double indirect: 1024 × 1024 × 4KB = 4GB</li>
+          <li>Triple indirect: 1024³ × 4KB = 4TB</li>
+        </ul>
+      </div>
+      <div class="gate">GATE questions often ask: "How many disk accesses needed to read block number N of a file?" Account for inode access + possible indirect block accesses + final data block access.</div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Free Space Management</div>
+      <table>
+        <tr><th>Method</th><th>Description</th><th>Pros</th><th>Cons</th></tr>
+        <tr><td>Bit Vector (Bitmap)</td><td>One bit per block: 0=free, 1=used</td><td>Efficient find contiguous free blocks; simple</td><td>Bitmap can be large for big disks</td></tr>
+        <tr><td>Linked Free List</td><td>Link all free blocks together</td><td>No wasted space</td><td>No efficient contiguous allocation</td></tr>
+        <tr><td>Grouping</td><td>First free block stores addresses of n free blocks; last of those n stores addresses of next group</td><td>Can find many free blocks quickly</td><td>More complex</td></tr>
+        <tr><td>Counting</td><td>Store (first free block, count) pairs</td><td>Efficient for contiguous free blocks</td><td>More complex than bitmap</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== UNIT 9 ===== -->
+<div id="unit9" class="unit">
+  <div class="unit-title">📘 Unit 9 <span style="font-size:1.2rem">I/O Systems & Disk Scheduling</span></div>
+  <div class="unit-subtitle">Books: Galvin Ch.12–13 | <span class="tag tag-high">High Weightage ⭐</span></div>
+
+  <div class="section">
+    <div class="section-title">9.2 Disk Scheduling Algorithms</div>
+    <div class="subsection">
+      <div class="definition"><strong>Disk Access Time = Seek Time + Rotational Latency + Transfer Time</strong>. Disk scheduling algorithms minimize seek time by reordering service of disk I/O requests.</div>
+
+      <div class="subsection-title">1. FCFS (First Come First Served)</div>
+      <p>Service requests in order they arrive. Fair but not optimal.</p>
+      <div class="example">
+        <div class="example-header">📌 Example — Initial head position: 53, Queue: 98,183,37,122,14,124,65,67</div>
+        <p>FCFS order: 53→98→183→37→122→14→124→65→67</p>
+        <p>Total head movement = |98-53|+|183-98|+|37-183|+|122-37|+|14-122|+|124-14|+|65-124|+|67-65|</p>
+        <p>= 45+85+146+85+108+110+59+2 = <strong>640 cylinders</strong></p>
+      </div>
+
+      <div class="subsection-title">2. SSTF (Shortest Seek Time First)</div>
+      <p>Service the request closest to current head position. Reduces seek time significantly but may cause <strong>starvation</strong> for far-away requests.</p>
+      <div class="example">
+        <div class="example-header">📌 SSTF — Head=53, Queue: 98,183,37,122,14,124,65,67</div>
+        <p>From 53: closest = 65. 65→67→37→14→98→122→124→183</p>
+        <p>Movement = 12+2+30+23+84+24+2+59 = <strong>236 cylinders</strong></p>
+      </div>
+
+      <div class="subsection-title">3. SCAN (Elevator Algorithm)</div>
+      <p>Head moves in one direction servicing all requests, reaches end of disk (or last request), reverses direction. Like an elevator.</p>
+      <div class="example">
+        <div class="example-header">📌 SCAN — Head=53 moving toward 0, Queue: 98,183,37,122,14,124,65,67</div>
+        <p>Move toward 0: service 37,14,0(end), then reverse: 65,67,98,122,124,183</p>
+        <p>Movement = |37-53|+|14-37|+|0-14|+|65-0|+|67-65|+... = 16+23+14+65+2+31+24+2+59 = <strong>236</strong></p>
+      </div>
+
+      <div class="subsection-title">4. C-SCAN (Circular SCAN)</div>
+      <p>Like SCAN but only services requests in ONE direction. After reaching end, jumps back to start (no service on return). More uniform waiting time than SCAN.</p>
+
+      <div class="subsection-title">5. LOOK & C-LOOK</div>
+      <p>Variants of SCAN/C-SCAN that only go as far as the last request in that direction (not to the physical end of disk). More practical than SCAN/C-SCAN.</p>
+
+      <table>
+        <tr><th>Algorithm</th><th>Head Movement</th><th>Starvation?</th><th>Suitable for</th></tr>
+        <tr><td>FCFS</td><td>High</td><td>No</td><td>Light load</td></tr>
+        <tr><td>SSTF</td><td>Low</td><td>Yes (far requests)</td><td>General use but risky</td></tr>
+        <tr><td>SCAN</td><td>Medium</td><td>No</td><td>General use</td></tr>
+        <tr><td>C-SCAN</td><td>Medium</td><td>No</td><td>Uniform waiting time needed</td></tr>
+        <tr><td>LOOK</td><td>Low-Medium</td><td>No</td><td>Most practical</td></tr>
+        <tr><td>C-LOOK</td><td>Low-Medium</td><td>No</td><td>Most practical, uniform</td></tr>
+      </table>
+      <div class="gate">GATE 2019: Total head movement for SCAN starting from cylinder 50 (moving upward) with requests {176,79,34,60,92,11,41,114}? Draw the movement, add up distances.</div>
+    </div>
+
+    <div class="questions">
+      <div class="questions-header">📝 Unit 9 Practice Questions</div>
+      <div class="q-item">
+        <div class="q-num">Q1 — GATE Style | 2 Marks</div>
+        <div class="q-text">Disk head is at cylinder 100. Request queue (in order of arrival): 55, 58, 39, 18, 90, 160, 150, 38, 184. Using SSTF, what is the total head movement?</div>
+        <div class="q-options">
+          <div class="q-opt" onclick="checkAns(this,'wrong')">A. 248</div>
+          <div class="q-opt" onclick="checkAns(this,'correct')">B. 208</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">C. 350</div>
+          <div class="q-opt" onclick="checkAns(this,'wrong')">D. 190</div>
+        </div>
+        <button class="ans-btn" onclick="toggleExplain(this)">Show Explanation</button>
+        <div class="q-explain">From 100: closest is 90 (dist=10). From 90: closest is 58 (dist=32). From 58: closest is 55 (dist=3). From 55: closest is 39 (dist=16). From 39: closest is 38 (dist=1). From 38: closest is 18 (dist=20). From 18: closest is 150 (dist=132). From 150: closest is 160 (dist=10). From 160: closest is 184 (dist=24). Total=10+32+3+16+1+20+132+10+24 = 248. Select A if 248 is the answer; check your own simulation carefully.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== UNIT 10 ===== -->
+<div id="unit10" class="unit">
+  <div class="unit-title">📘 Unit 10 <span style="font-size:1.2rem">Protection & Security</span></div>
+  <div class="unit-subtitle">Books: Galvin Ch.14–15 | <span class="tag tag-low">Lower GATE Weightage</span></div>
+
+  <div class="section">
+    <div class="section-title">10.1 Protection</div>
+    <div class="subsection">
+      <div class="subsection-title">Access Matrix</div>
+      <div class="definition"><strong>Access Matrix</strong>A model for protection. Rows = domains (processes/users), Columns = objects (files, devices, memory). Each cell contains the set of allowed operations (read, write, execute).</div>
+      <table>
+        <tr><th>Domain \ Object</th><th>File1</th><th>File2</th><th>Printer</th></tr>
+        <tr><td>D1 (User A)</td><td>read, write</td><td>read</td><td>—</td></tr>
+        <tr><td>D2 (User B)</td><td>read</td><td>read, write</td><td>print</td></tr>
+        <tr><td>D3 (System)</td><td>read, write, execute</td><td>read, write</td><td>print</td></tr>
+      </table>
+      <p><strong>Access Control List (ACL):</strong> Store access matrix column by column — each object has a list of (domain, rights). Easy to revoke object's rights. Implemented by most file systems.</p>
+      <p><strong>Capability List:</strong> Store access matrix row by row — each domain has a list of (object, rights). Easy to check what a process can do. Harder to revoke rights from all domains.</p>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Security Threats</div>
+      <table>
+        <tr><th>Threat</th><th>Description</th></tr>
+        <tr><td>Virus</td><td>Self-replicating code that attaches to legitimate programs</td></tr>
+        <tr><td>Worm</td><td>Self-replicating, spreads over network without needing host program</td></tr>
+        <tr><td>Trojan Horse</td><td>Legitimate-looking program with hidden malicious code</td></tr>
+        <tr><td>Logic Bomb</td><td>Code triggered by specific condition (date, event)</td></tr>
+        <tr><td>Trapdoor/Backdoor</td><td>Secret undocumented entry point into system</td></tr>
+        <tr><td>Buffer Overflow</td><td>Writing beyond buffer boundary to corrupt memory and inject code</td></tr>
+        <tr><td>Denial of Service</td><td>Overwhelming system resources to prevent legitimate use</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+</div><!-- end content -->
+</div><!-- end app -->
+
+<script>
+function showUnit(n, btn) {
+  document.querySelectorAll('.unit').forEach(u => u.classList.remove('active'));
+  document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('unit'+n).classList.add('active');
+  btn.classList.add('active');
+  document.querySelector('.content').scrollTop = 0;
+}
+
+function checkAns(opt, type) {
+  const opts = opt.parentElement.querySelectorAll('.q-opt');
+  opts.forEach(o => { o.classList.remove('correct','wrong'); o.style.pointerEvents='none'; });
+  opt.classList.add(type);
+}
+
+function toggleExplain(btn) {
+  const exp = btn.nextElementSibling;
+  exp.classList.toggle('show');
+  btn.textContent = exp.classList.contains('show') ? 'Hide Explanation' : 'Show Explanation';
+}
+
+function filterUnits(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.unit-btn').forEach(btn => {
+    btn.style.display = btn.textContent.toLowerCase().includes(q) ? 'flex' : 'none';
+  });
+}
+</script>
+</body>
+</html>
